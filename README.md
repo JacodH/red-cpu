@@ -27,62 +27,6 @@ Register       = r[a | b | c | d | e | f | g | z]
 RAM            = RAM[address]
 ```
 
-# Instruction set
-```js
-Memory #################################################
-// Registers
-SET r[TAR], IMM;                    ; Sets r[TAR] to IMM                                     ; r[TAR] = IMM
-MOV r[SRC], r[DST];                 ; Moves content at r[SRC] to r[DST]                      ; r[DST] = r[SRC]
-CLR r[TAR];                         ; Clears register                                        ; r[TAR] = 0
-
-// Ram
-GET r[DST], r[SRC], IMM;      ; Sets r[DST] to RAM[r[SRC] + IMM]                       ; r[DST] = RAM[r[SRC] + IMM]
-STR r[SRC], r[DST], IMM;      ; Sets RAM[r[DST+IMM]] to r[SRC]                         ; RAM[r[DST] + IMM] = r[SRC]
-
-Arithmetic #################################################
-// Addition
-ADI r[TAR], IMM, r[DST];            ; Adds an immediate value to r[TAR], sum goes to r[DST]  ; r[DST] = r[TAR] + IMM
-ADD r[SRC1], r[SRC2], r[DST];       ; Adds r[SRC1] and r[SRC2], sum goes to r[DST]           ; r[DST] = r[SRC1] + r[SRC2]
-
-// Subtraction
-SUI r[TAR], IMM, r[DST];            ; Subtracts an immediate value from r[TAR]               ; r[DST] = r[TAR] - IMM
-SUB r[SRC1], r[SRC2], r[DST];       ; Subtracts r[SRC1] to r[SRC2], diff goes to r[DST]      ; r[DST] = r[SRC1] - r[SRC2]
-
-// Bitwise
-AND r[SRC1], r[SRC2], r[DST];       ; Bitwise AND gate                                       ; r[DST] = r[SRC1] & r[SRC2]
-OR  r[SRC1], r[SRC2], r[DST];       ; Bitwise OR gate                                        ; r[DST] = r[SRC1] | r[SRC2]
-XOR r[SRC1], r[SRC2], r[DST];       ; Bitwise XOR gate                                       ; r[DST] = r[SRC1] ^ r[SRC2]
-NOT r[SRC], r[DST];                 ; Bitwise NOT gate                                       ; r[DST] = ~r[SRC]
-SHL r[SRC], IMM, r[DST];            ; Bitwise shift left                                     ; r[DST] = r[SRC] << IMM
-SHR r[SRC], IMM, r[DST];            ; Bitwise shift right                                    ; r[DST] = r[SRC] >> IMM
-
-// Comparison
-LT r[SRC1], r[SRC2], r[DST];        ; Less than comparison                                   ; r[DST] = (r[SRC1] < r[SRC2]) ? 1 : 0 
-GT r[SRC1], r[SRC2], r[DST];        ; Greater than comparison                                ; r[DST] = (r[SRC1] > r[SRC2]) ? 1 : 0 
-EQ r[SRC1], r[SRC2], r[DST];        ; Equal comparison                                       ; r[DST] = (r[SRC1] == r[SRC2]) ? 1 : 0
-NE r[SRC1], r[SRC2], r[DST];        ; Not equal comparison                                   ; r[DST] = (r[SRC1] != r[SRC2]) ? 1 : 0
-
-Control #################################################
-// Basic
-NOP;                                ; No operation                                           ;
-HLT;                                ; Stops CPU                                              ; 
-
-// Jumps
-JMP ADDR;                           ; Sets PC to ADDR                                        ; PC = ADDR
-JEI ADDR, r[SRC], IMM;              ; Sets PC to ADDR if r[SRC] == IMM                       ; if (r[SRC] == IMM) {PC = ADDR}
-JER ADDR, r[SRC1], r[SRC2];         ; Sets PC to ADDR if r[SRC1] == r[SRC2]                  ; if (r[SRC1] == r[SRC2]) {PC = ADDR}
-
-// Stack
-PUSH r[SRC];                        ; Add content at register r[SRC] to stack, then SP--     ; RAM[SP] = r[SRC]; SP--;
-POP r[DST];                         ; SP++, take content from RAM[SP]                        ; SP++; r[DST] = RAM[SP];
-
-CALL ADDR;                          ; Pushes PC+1 to stack, sets PC to ADDR                  ; RAM[SP] = PC + 1; SP--; PC = ADDR;        !!!Im not sure If i want to only add 1 to PC or if I want to add 3!!!
-RET;                                ; POP, then set PC to the value                          ; SP++; PC = RAM[SP];
-
-Other #################################################
-OUT r[TAR]                          ; Prints content at r[TAR] to console                    ; 
-```
-
 ## Table
 
 #### Memory

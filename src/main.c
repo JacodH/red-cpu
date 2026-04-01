@@ -5,7 +5,7 @@
 #include "instructions.h"
 
 int main() {
-    printf("Emulator for the RED1 CPU.\n");
+    printf("Emulator for the red-CPU.\n");
 
     CPU cpu;
 
