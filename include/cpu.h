@@ -22,5 +22,4 @@ uint8_t fetch(CPU *cpu_ptr, int offset);                      // Returns the ins
 void print_registers(CPU *cpu_ptr);
 void print_RAM(CPU *cpu_ptr);
 
-
 #endif

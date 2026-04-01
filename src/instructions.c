@@ -27,6 +27,7 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c) {
             break;
 
         case 0x05: // STR
+            printf("Storing to address: %02x", cpu_ptr->registers[b] + c);
             cpu_ptr->RAM[cpu_ptr->registers[b] + c] = cpu_ptr->registers[a];
             cpu_ptr->PC += 4;
             break;

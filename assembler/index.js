@@ -60,9 +60,11 @@ function operand_to_hex(operand = "0x00") {
 }
 
 fs.readFile('../programs/'+asm_file_path, 'utf8', (err, data) => {
+    var total_bytes = 0;
+
     if (err) { console.error('Error reading file:', err); return; }
 
-    var out = ""
+    var out = "";
 
     console.log("ASM: ")
     let lines = data.split('\r\n');
@@ -78,10 +80,12 @@ fs.readFile('../programs/'+asm_file_path, 'utf8', (err, data) => {
         // console.log(line);
         split_line = line.split(' ');
 
-        out += OP_CODES[split_line[0]] + " ";
-        out += operand_to_hex(split_line[1])+ " ";
-        out += operand_to_hex(split_line[2])+ " ";
-        out += operand_to_hex(split_line[3])+ " ";
+        out += OP_CODES[split_line[0]] + ", ";
+        out += operand_to_hex(split_line[1])+ ", ";
+        out += operand_to_hex(split_line[2])+ ", ";
+        out += operand_to_hex(split_line[3])+ ", ";
+
+        total_bytes += 4;
 
         out += "\n";
     }
@@ -90,6 +94,8 @@ fs.readFile('../programs/'+asm_file_path, 'utf8', (err, data) => {
     console.log("HEX: ");
 
     console.log(out);
+
+    console.log(`\nTotal bytes: ${total_bytes}/256 (${(total_bytes/256) * 100}%) `);
     
     fs.writeFile(out_file_path, out, err => {
         if (err) {
