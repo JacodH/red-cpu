@@ -1,8 +1,9 @@
-# Red 1
-First (ish) attempt at a CPU emulator for a custom designed CPU. The goals of the Red 1 are: 
+# Red
+First (ish) attempt at a CPU emulator for a custom-designed CPU. The goals of the Red 1 are: 
 1. Fully working stack
-2. Calculate the fibonacci sequence
-3. Solve first 3 digits of PI
+2. Calculate the Fibonacci sequence
+3. Solve the first 3 digits of PI
+4. Render hexadecimal to a VRAM monitor
 
 Specs: 
  - Memory: 256 bytes
