@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-char register_ids[8];
+extern char register_ids[9];
 
 typedef struct {
     uint8_t registers[8];   // The 8 register

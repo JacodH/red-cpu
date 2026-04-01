@@ -3,7 +3,7 @@
 #include "cpu.h"
 #include "instructions.h"
 
-char register_ids[] = "ABCDEFGZ";
+char register_ids[9] = "ABCDEFGZ";
 
 void init_cpu(CPU *cpu_ptr) {
     for (int i = 0; i < 8; i++) {cpu_ptr->registers[i] = 0; }    // Clear all registers 
