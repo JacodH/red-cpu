@@ -59,17 +59,13 @@ RAM            = RAM[address]
 | 0xae | Not equal comparison                   | NE   | r[SRC1] | r[SRC2] | r[DST] |
 
 #### Control
-| Code | Description                                                                     | Name | o1     | o2      | o3      |
-| ---- | ------------------------------------------------------------------------------- | ---- | ------ | ------- | ------- |
-| 0xb1 | No operation                                                                    | NOP  |        |         |         |
-| 0xb2 | Stops CPU                                                                       | HLT  |        |         |         |
-| 0xb3 | Sets PC to ADDR                                                                 | JMP  | ADDR   |         |         |
-| 0xb4 | Sets PC to ADDR if a register matches an immediate                              | JEI  | ADDR   | r[SRC]  | IMM     |
-| 0xb5 | Sets PC to ADDR if a register matches another register                          | JER  | ADDR   | r[SRC1] | r[SRC2] |
-| 0xb6 | Pushes register to stack, increments stack pointer                              | PUSH | r[SRC] |         |         |
-| 0xb7 | Pops content to register, decrementing  stack pointer                            | POP  | r[DST] |         |         |
-| 0xb8 | Pushes next instruction address to stack, then sets the program counter to ADDR | CALL | ADDR   |         |         |
-| 0xb9 | Pops address from stack into PC                                                 | RET  |        |         |         |
+| Code | Description                                       | Name | o1   | o2      | o3      |
+| ---- | ------------------------------------------------- | ---- | ---- | ------- | ------- |
+| 0xb1 | No operation                                      | NOP  |      |         |         |
+| 0xb2 | Stops CPU                                         | HLT  |      |         |         |
+| 0xb3 | Jumps to immediate address, PC = ADDR             | JMP  | ADDR |         |         |
+| 0xb4 | Jumps to immediate address if r[src] == immediate | JEI  | ADDR | r[SRC]  | IMM     |
+| 0xb5 | Jumps to immediate if a r[src1] == r[src2]        | JER  | ADDR | r[SRC1] | r[SRC2] |
 
 ### Implemented 
  - [x] SET
