@@ -85,14 +85,14 @@ RAM            = RAM[address]
  - [x] AND
  - [x] OR
  - [x] XOR
- - [ ] NOT
- - [ ] SHL
- - [ ] SHR
- - [ ] LT
- - [ ] GT
- - [ ] EQ
- - [ ] NE
- - [ ] NOP
+ - [x] NOT
+ - [x] SHL
+ - [x] SHR
+ - [x] LT
+ - [x] GT
+ - [x] EQ
+ - [x] NE
+ - [x] NOP
  - [x] HLT
  - [x] JMP
  - [ ] JEI

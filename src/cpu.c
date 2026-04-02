@@ -31,7 +31,7 @@ void print_registers(CPU *cpu_ptr) {
         printf("[%c=0x%02x] ", register_ids[i], cpu_ptr->registers[i]);
     }
     printf("\n");
-    printf("[PC=0x%02x] ", cpu_ptr->PC);
+    printf("[PC=0x%02x]\n", cpu_ptr->PC);
 }
 
 void print_RAM(CPU *cpu_ptr) {

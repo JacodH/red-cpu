@@ -3,37 +3,42 @@
 #include "cpu.h"
 #include "instructions.h"
 
-int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c) {
+int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c, int dev) {
     switch(op) {
         // In each switch statement, increment cpu_ptr->PC accordingly. 
         case 0x01: // SET 
             cpu_ptr->registers[a] = b;
             cpu_ptr->PC += 4;
+            if (dev) {printf("SET reg[%02x] %02x", a, b);}
             break;
 
         case 0x02: // MOV
             cpu_ptr->registers[b] = cpu_ptr->registers[a];
             cpu_ptr->PC += 4;
+            if (dev) {printf("MOV reg[%02x] reg[%02x]", a, b);}
             break;
 
         case 0x03: // CLR
             cpu_ptr->registers[a] = 0;
             cpu_ptr->PC += 4;
+            if (dev) {printf("CLR reg[%02x]", a);}
             break;
 
         case 0x04: // GET
             cpu_ptr->registers[a] = cpu_ptr->RAM[cpu_ptr->registers[b] + c];
             cpu_ptr->PC += 4;
+            if (dev) {printf("GET reg[%02x] reg[%02x] %02x", a, b, c);}
             break;
 
         case 0x05: // STR
-            printf("Storing to address: %02x", cpu_ptr->registers[b] + c);
             cpu_ptr->RAM[cpu_ptr->registers[b] + c] = cpu_ptr->registers[a];
             cpu_ptr->PC += 4;
+
+            if (dev) {printf("STR reg[%02x] reg[%02x] %02x", b, a, c);}
             break;
 
         case 0x06: // OUT
-            printf("OUT [%c=0x%02x | %d]\n", register_ids[a], cpu_ptr->registers[a], cpu_ptr->registers[a]);
+            printf("OUT reg[%02x] = [0x%02x | %d]", a, cpu_ptr->registers[a], cpu_ptr->registers[a]);
             cpu_ptr->PC += 4;
             break;
 
@@ -77,6 +82,40 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c) {
             cpu_ptr->PC += 4;
             break;
 
+        case 0xa9: // SHL:
+            cpu_ptr->registers[c] = cpu_ptr->registers[a] << b;
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xaa: // SHR:
+            cpu_ptr->registers[c] = cpu_ptr->registers[a] >> b;
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xab: // LT:
+            cpu_ptr->registers[c] = cpu_ptr->registers[a] < cpu_ptr->registers[b];
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xac: // GT:
+            cpu_ptr->registers[c] = cpu_ptr->registers[a] > cpu_ptr->registers[b];
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xad: // EQ:
+            cpu_ptr->registers[c] = cpu_ptr->registers[a] == cpu_ptr->registers[b];
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xae: // NE:
+            cpu_ptr->registers[c] = cpu_ptr->registers[a] != cpu_ptr->registers[b];
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xb1: // NOP:
+            cpu_ptr->PC += 4;
+            break;
+
         case 0xb2: // HLT 
             cpu_ptr->running = 0;
             printf("HLT\n");
@@ -85,6 +124,13 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c) {
         case 0xb3: // JMP
             cpu_ptr->PC = a;
             break;
+
+        case 0xb4: // JEI
+            if (cpu_ptr->registers[b] == cpu_ptr->registers[c]) {
+                cpu_ptr->PC = a;
+            }else {
+                cpu_ptr->PC += 4;
+            }
 
         default: 
             printf("Unknown opcode: 0x%02x\n", op);

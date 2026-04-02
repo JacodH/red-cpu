@@ -46,6 +46,7 @@ var REGISTERS = {
     "reg[d]": "0x03",
     "reg[e]": "0x04",
     "reg[f]": "0x05",
+    "reg[g]": "0x05",
     "reg[z]": "0x06",
 }
 
@@ -55,7 +56,7 @@ function operand_to_hex(operand = "0x00") {
         return REGISTERS[operand];
     } else {
         // turn immediate into hex
-        return "0x"+((operand).toString(16)+"").padStart(2, "0")
+        return "0x"+(parseInt(operand).toString(16)+"").padStart(2, "0")
     }
 }
 
