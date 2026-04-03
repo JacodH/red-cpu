@@ -33,10 +33,14 @@ var OP_CODES = {
     "JMP": "0xb3",
     "JEI": "0xb4",
     "JER": "0xb5",
-    "PUSH": "0xb6",
-    "POP": "0xb7",
-    "CALL": "0xb8",
-    "RET": "0xb9",
+    
+    "JMPR": "0xb6",
+    "JEIR": "0xb7",
+    "JMRR": "0xb8",
+    // "PUSH": "0xb6",
+    // "POP": "0xb7",
+    // "CALL": "0xb8",
+    // "RET": "0xb9",
 }
 
 var REGISTERS = {
@@ -69,6 +73,9 @@ fs.readFile('../programs/'+asm_file_path, 'utf8', (err, data) => {
 
     console.log("ASM: ")
     let lines = data.split('\r\n');
+
+    let byte = 0;
+
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i].split(';')[0];
 
@@ -76,7 +83,7 @@ fs.readFile('../programs/'+asm_file_path, 'utf8', (err, data) => {
         if (line == "\r" || line == "") {continue;} 
         line = line.replaceAll(',', '');
         
-        console.log(line);
+        console.log(`0x${parseInt(byte).toString(16)}|${line}`);
 
         // console.log(line);
         split_line = line.split(' ');
@@ -89,6 +96,7 @@ fs.readFile('../programs/'+asm_file_path, 'utf8', (err, data) => {
         total_bytes += 4;
 
         out += "\n";
+        byte += 4;
     }
 
     console.log("---");

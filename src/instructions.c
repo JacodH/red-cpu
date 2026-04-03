@@ -137,12 +137,12 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c, int dev) 
             break;
 
         case 0xb3: // JMP
-            printf("JMP 0x%02x", a);
+            if (dev) {printf("JMP 0x%02x", a);}
             cpu_ptr->PC = a;
             break;
 
         case 0xb4: // JEI
-            printf("JEI 0x%02x, r[%02x] %02x", a, b, c);
+            if (dev) {printf("JEI 0x%02x, r[%02x] %02x", a, b, c);}
             if (cpu_ptr->registers[b] == c) {
                 cpu_ptr->PC = a;
             }else {
@@ -151,12 +151,29 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c, int dev) 
             break;
 
         case 0xb5: // JER
-            printf("JER 0x%02x, r[%02x] r[%02x]", a, b, c);
+            if (dev) {printf("JER 0x%02x, r[%02x] r[%02x]", a, b, c);}
             if (cpu_ptr->registers[b] == cpu_ptr->registers[c]) {
                 cpu_ptr->PC = a;
             }else {
                 cpu_ptr->PC += 4;
             }
+            break;
+
+        case 0xb6: // JMPR
+            if (dev) {printf("JMPR r[%02x]", a);}
+            cpu_ptr->PC = cpu_ptr->registers[a];
+            break;
+
+        case 0xb7: // JMIR
+            if (dev) {printf("JEIR r[%02x], r[%02x] %02x", a, b, c);}
+            if (cpu_ptr->registers[b] == c) { cpu_ptr->PC = cpu_ptr->registers[a]; } 
+            else cpu_ptr->PC += 4;
+            break;
+
+        case 0xb8: // JMRR
+            if (dev) {printf("JMRR r[%02x], r[%02x] r[%02x]", a, b, c);}
+            if (cpu_ptr->registers[b] == cpu_ptr->registers[c]) { cpu_ptr->PC = cpu_ptr->registers[a]; } 
+            else cpu_ptr->PC += 4;
             break;
 
         default: 

@@ -59,13 +59,17 @@ RAM            = RAM[address]
 | 0xae | Not equal comparison                   | NE   | r[SRC1] | r[SRC2] | r[DST] |
 
 #### Control
-| Code | Description                                       | Name | o1   | o2      | o3      |
-| ---- | ------------------------------------------------- | ---- | ---- | ------- | ------- |
-| 0xb1 | No operation                                      | NOP  |      |         |         |
-| 0xb2 | Stops CPU                                         | HLT  |      |         |         |
-| 0xb3 | Jumps to immediate address, PC = ADDR             | JMP  | ADDR |         |         |
-| 0xb4 | Jumps to immediate address if r[src] == immediate | JEI  | ADDR | r[SRC]  | IMM     |
-| 0xb5 | Jumps to immediate if a r[src1] == r[src2]        | JER  | ADDR | r[SRC1] | r[SRC2] |
+| Code | Description                                                       | Name | o1     | o2      | o3      |
+| ---- | ----------------------------------------------------------------- | ---- | ------ | ------- | ------- |
+| 0xb1 | No operation                                                      | NOP  |        |         |         |
+| 0xb2 | Stops CPU                                                         | HLT  |        |         |         |
+| 0xb3 | Jumps to immediate address, PC = ADDR                             | JMP  | ADDR   |         |         |
+| 0xb4 | Jumps to immediate address if r[src] == immediate                 | JEI  | ADDR   | r[SRC]  | IMM     |
+| 0xb5 | Jumps to immediate if a r[src1] == r[src2]                        | JER  | ADDR   | r[SRC1] | r[SRC2] |
+| 0xb6 | Jumps to register stored address, PC = r[SRC]                     | JMPR | r[SRC] |         |         |
+| 0xb7 | Jumps to register stored immediate address if r[src] == immediate | JEIR | r[SRC] | r[SRC]  | IMM     |
+| 0xb8 | Jumps to register stored immediate if a r[src1] == r[src2]        | JERR | r[SRC] | r[SRC1] | r[SRC2] |
+
 
 ### Implemented 
  - [x] SET
