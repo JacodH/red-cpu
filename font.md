@@ -19,3 +19,4 @@ Each character is a 4x4 bitmap stored in memory.
 | d         | 01100101 | 01010110 | 0x65             | 0x56            |
 | e         | 01110100 | 01100111 | 0x74             | 0x67            |
 | f         | 01110100 | 01100100 | 0x74             | 0x64            |
+
