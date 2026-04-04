@@ -33,14 +33,10 @@ var OP_CODES = {
     "JMP": "0xb3",
     "JEI": "0xb4",
     "JER": "0xb5",
-    
+
     "JMPR": "0xb6",
     "JEIR": "0xb7",
     "JMRR": "0xb8",
-    // "PUSH": "0xb6",
-    // "POP": "0xb7",
-    // "CALL": "0xb8",
-    // "RET": "0xb9",
 }
 
 var REGISTERS = {

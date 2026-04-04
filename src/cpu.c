@@ -53,4 +53,5 @@ void print_RAM(CPU *cpu_ptr) {
             printf("%02x ", cpu_ptr->RAM[i]);
         }
     }
+    printf("\n");
 }

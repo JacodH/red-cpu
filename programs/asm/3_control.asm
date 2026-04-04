@@ -42,7 +42,7 @@ SET reg[a] 6;              a = 6
 SET reg[b] 6;              b = 6
 SET reg[c] 0x70;           c = 0x70
 
-JMRR reg[c] reg[a] reg[b]; if (a == b) { PC == reg[c] }
+JERR reg[c] reg[a] reg[b]; if (a == b) { PC == reg[c] }
 CLR reg[a];
 OUT reg[a];                Should return 6
 

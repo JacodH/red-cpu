@@ -176,6 +176,35 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c, int dev) 
             else cpu_ptr->PC += 4;
             break;
 
+        case 0xc1: // PUSH
+            if (dev) {printf("PUSH r[%02x]", a);}
+            cpu_ptr->RAM[cpu_ptr->registers[0x07]] = cpu_ptr->registers[a];
+            cpu_ptr->registers[0x07]--;
+            cpu_ptr->PC += 4;
+            break;
+
+        case 0xc2: // POP
+            if (dev) {printf("POP r[%02x]", a);}
+            cpu_ptr->registers[0x07]++;
+            cpu_ptr->registers[a] = cpu_ptr->RAM[cpu_ptr->registers[0x07]];
+            cpu_ptr->PC += 4;
+            break;
+        
+        case 0xc3: // CALL
+            if (dev) {printf("CALL 0x%02x", a);}
+            cpu_ptr->RAM[cpu_ptr->registers[0x07]] = cpu_ptr->PC+4;
+            cpu_ptr->registers[0x07]--;
+
+            cpu_ptr->PC = a;
+            break;
+
+        case 0xc4: // RET
+            if (dev) {printf("RET");}
+            cpu_ptr->registers[0x07]++;
+            cpu_ptr->PC = cpu_ptr->RAM[cpu_ptr->registers[0x07]];
+            
+            break;
+
         default: 
             printf("Unknown opcode: 0x%02x\n", op);
             cpu_ptr->running = 0;

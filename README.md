@@ -1,9 +1,9 @@
 # Red
 First (ish) attempt at a CPU emulator for a custom-designed CPU. The goals of the Red 1 are: 
-1. Fully working stack
-2. Calculate the Fibonacci sequence
-3. Solve the first 3 digits of PI
-4. Render hexadecimal to a VRAM monitor
+ - [x] Fully working stack
+ - [x] Calculate the Fibonacci sequence
+ - [ ] Solve the first 3 digits of PI
+ - [ ] Render hexadecimal to a VRAM monitor
 
 Specs: 
  - Memory: 256 bytes
@@ -70,6 +70,14 @@ RAM            = RAM[address]
 | 0xb7 | Jumps to register stored immediate address if r[src] == immediate | JEIR | r[SRC] | r[SRC]  | IMM     |
 | 0xb8 | Jumps to register stored immediate if a r[src1] == r[src2]        | JERR | r[SRC] | r[SRC1] | r[SRC2] |
 
+#### Stack
+| Code | Description                                   | Name | a      | b | c |
+|------|-----------------------------------------------|------|--------|---|---|
+| 0xc1 | Pushes reg[a] to stack, lowers stack          | PUSH | reg[a] |   |   |
+| 0xc2 | Raises stack, sends value to reg[a]           | POP  | reg[a] |   |   |
+| 0xc3 | Pushes next PC step to stack, sets PC to ADDR | CALL | ADDR   |   |   |
+| 0xc4 | Pops -> PC                                    | RET  |        |   |   |
+
 
 ### Implemented 
  - [x] SET
@@ -95,11 +103,14 @@ RAM            = RAM[address]
  - [x] NOP
  - [x] HLT
  - [x] JMP
- - [ ] JEI
- - [ ] JER
- - [ ] PUSH
- - [ ] POP
- - [ ] CALL
- - [ ] RET
+ - [x] JEI
+ - [x] JER
+ - [x] JMPR
+ - [x] JEIR
+ - [x] JERR
+ - [x] PUSH
+ - [x] POP
+ - [x] CALL
+ - [x] RET
 
 # Emulation
