@@ -9,6 +9,8 @@ void init_cpu(CPU *cpu_ptr) {
     for (int i = 0; i < 8; i++) {cpu_ptr->registers[i] = 0; }    // Clear all registers 
     for (int i = 0; i < 256; i++) {cpu_ptr->RAM[i] = 0; }; // Clear all RAM
 
+    for (int i = 0; i < 256; i++) {cpu_ptr->ROM[i] = 0; }; // Clear all RAM
+
     cpu_ptr->registers[7] = 255;
 
     cpu_ptr->PC = 0;   // Set program counter to 0
@@ -18,6 +20,12 @@ void init_cpu(CPU *cpu_ptr) {
 void load_program(CPU *cpu_ptr, uint8_t program[], int size) {
     for (int i = 0; i < size; i++) {
         cpu_ptr->RAM[i] = program[i];
+    }
+}
+
+void load_ROM(CPU *cpu_ptr, uint8_t rom[], int size) {
+    for (int i = 0; i < size; i++) {
+        cpu_ptr->ROM[i] = rom[i];
     }
 }
 
@@ -52,6 +60,21 @@ void print_RAM(CPU *cpu_ptr) {
         else {
             printf("%02x ", cpu_ptr->RAM[i]);
         }
+    }
+    printf("\n");
+}
+
+void print_ROM(CPU *cpu_ptr) {
+    printf("\nROM\n   ");
+    for (int i = 0; i < 16; i++) {
+        printf("%02x ", i);
+    }
+
+    for (int i = 0; i < 256; i++) {
+        if (i % 16 == 0) {
+            printf("\n%02x ", i);
+        }
+        printf("%02x ", cpu_ptr->ROM[i]);
     }
     printf("\n");
 }

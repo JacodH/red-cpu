@@ -12,6 +12,7 @@ var OP_CODES = {
     "GET": "0x04",
     "STR": "0x05",
     "OUT": "0x06",
+    "ROM": "0x07",
 
     "ADI": "0xa1",
     "ADD": "0xa2",
@@ -97,23 +98,23 @@ fs.readFile(asm_file_path, 'utf8', (err, data) => {
     }
     
     console.log("\n1. Cleaned lines: ");
-    for (line of clean_lines) {console.log(line)};
-
+    // for (line of clean_lines) {console.log(line)};
+    
     // 2. Store label addresses 
     var addr = 0;
     var labels = {};
     
-    console.log("\n2. Found labels: ");
     for (line of clean_lines) {
         if (line[line.length-1] == ":") {
             line = line.slice(0, -1);
             labels[line] = addr
         }else {
-            console.log(int_to_hex(addr)+" | "+line);
             addr += 4;
+            console.log(int_to_hex(addr)+" | "+line);
         }
     }
-    // console.log(labels);
+    console.log("\n2. Found labels: ");
+    console.log(labels);
 
     // 3. Final, convert everything to hex
     var hex = "";
@@ -138,11 +139,13 @@ fs.readFile(asm_file_path, 'utf8', (err, data) => {
     console.log("\n3. Convert to hex: ");
     console.log(hex);
 
+    console.log(`Size: ${addr}/256 Bytes, ${((addr/256)*100).toFixed()}%`);
+
     fs.writeFile(out_file_path, hex, err => {
         if (err) {
             console.error(err);
         } else {
-            console.log("program written to .raw file successfully. ");
+            console.log("\nProgram written to .raw file successfully. ");
         }
     });
 });

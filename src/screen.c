@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include "screen.h"
+#include "cpu.h"
 
 struct Screen create_screen(int width, int height, int scale) {
 
@@ -25,29 +26,27 @@ struct Screen create_screen(int width, int height, int scale) {
 
     return screen;
 }
-void check_close(struct Screen *screen) {
+void check_input(struct Screen *screen, CPU *cpu_ptr) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                screen_cleanup(screen);
-                break;
-
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.scancode) {
-                    case SDL_SCANCODE_ESCAPE:
-                        screen_cleanup(screen);
-                        break;
-                    default:
-                        break;
-                }
-                
-
-            default:  
-                break;
+        if (event.type == SDL_QUIT) {
+            screen_cleanup(screen);
         }
-
+        if (event.type == SDL_KEYDOWN) {
+            SDL_Keycode key = event.key.keysym.sym;
+            // printf("key pressed: 0x%02x\n", (uint8_t)key);
+            if (32 <= key && key <= 126) {
+                cpu_ptr->RAM[0xE6] = (uint8_t)key;
+            }
+        }
+        if (key == SDLK_UP) {cpu_ptr->RAM[0xE6] = 0x80;}
+        if (key == SDLK_DOWN) {cpu_ptr->RAM[0xE6] = 0x81;}
+        if (key == SDLK_LEFT) {cpu_ptr->RAM[0xE6] = 0x82;}
+        if (key == SDLK_RIGHT) {cpu_ptr->RAM[0xE6] = 0x83;}
+        if (key == SDLK_RETURN) {cpu_ptr->RAM[0xE6] = 0x0D;}
+        if (key == SDLK_BACKSPACE) {cpu_ptr->RAM[0xE6] = 0x08;}
     }
+
 }
 
 void clear_screen(struct Screen *screen) {

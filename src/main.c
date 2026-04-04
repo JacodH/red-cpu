@@ -12,32 +12,44 @@ int main() {
 
     // Create CPU struct
     CPU cpu;
-
-    // Create screen that is 12x4 pixels in size
-    struct Screen screen = create_screen(3*4, 1*4, 25);
-
     init_cpu(&cpu);
 
+    // Create screen that is 12x4 pixels in size
+    struct Screen screen = create_screen(3*4, 1*4, 10);
+
+    // Load program
     uint8_t program_test[] = {
-        0x01, 0x00, 0x00, 0x00,
-        0x01, 0x01, 0x01, 0x00,
-        0x01, 0x02, 0x00, 0x00,
-        0x06, 0x02, 0x00, 0x00,
-        0x01, 0x03, 0x00, 0x00,
-        0xc3, 0x28, 0x00, 0x00,
-        0x06, 0x02, 0x00, 0x00,
-        0xa1, 0x03, 0x01, 0x03,
-        0xb4, 0x38, 0x03, 0x0a,
-        0xb3, 0x14, 0x00, 0x00,
-        0xa2, 0x00, 0x01, 0x02,
-        0x02, 0x00, 0x01, 0x00,
-        0x02, 0x02, 0x00, 0x00,
+        0xc3, 0x08, 0x00, 0x00,
+        0xb3, 0x00, 0x00, 0x00,
+        0x04, 0x00, 0x01, 0xe6,
+        0x06, 0x00, 0x00, 0x00,
         0xc4, 0x00, 0x00, 0x00,
-        0xb2, 0x00, 0x00, 0x00,
     };
     int program_size = sizeof(program_test);
 
     load_program(&cpu, program_test, program_size);
+
+    // Set ROM
+    uint8_t rom[] = {
+        0x25, 0x52, // bitmap for 0
+        0x26, 0x27, // 1
+        0x61, 0x27, // 2
+        0x73, 0x17, // 3
+        0x55, 0x71, // 4
+        0x74, 0x37, // 5
+        0x74, 0x77, // 6
+        0x71, 0x24, // 7
+        0x75, 0x27, // 8
+        0x75, 0x71, // 9
+        0x25, 0x75, // a 
+        0x46, 0x57, // b
+        0x74, 0x47, // c
+        0x65, 0x56, // d
+        0x74, 0x67, // e
+        0x74, 0x64, // f
+    };
+    load_ROM(&cpu, rom, sizeof(rom));
+    print_ROM(&cpu);
 
     while(cpu.running) {
 
@@ -50,12 +62,12 @@ int main() {
         uint8_t b = fetch(&cpu, 2);
         uint8_t c = fetch(&cpu, 3);
         
-        execute(&cpu, op, a, b, c, 1);
-        
+        execute(&cpu, op, a, b, c, 0);
         // Monitor
-
+        
         // Checks to see if the user tried to close the window 
-        check_close(&screen);
+        // Also checks for input on the emulator
+        check_input(&screen, &cpu);
         
         clear_screen(&screen);
         
@@ -68,13 +80,14 @@ int main() {
         // Update buffer
         SDL_RenderPresent(screen.renderer);
         
-        SDL_Delay(10);
-
-        getchar();
+        
+        SDL_Delay(100);
+        
+        // getchar();
     }
     
     printf("\nCLOSING\n");
-
+    
     SDL_Delay(1000);
 
     screen_cleanup(&screen);

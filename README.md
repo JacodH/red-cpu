@@ -39,6 +39,7 @@ RAM            = RAM[address]
 | 0x04 | Load from RAM into register             | GET  | r[DST] | r[SRC] | IMM |
 | 0x05 | Store register into RAM                 | STR  | r[SRC] | r[DST] | IMM |
 | 0x06 | Outputs register to console             | OUT  | r[SRC] |        |     |
+| 0x07 | Load from ROM into register             | ROM  | r[DST] | r[SRC] | IMM |
 
 #### Arithmetic
 | Code | Description                            | Name | o1      | o2      | o3     |
