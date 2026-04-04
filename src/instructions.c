@@ -49,6 +49,11 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c, int dev) 
             cpu_ptr->PC += 4;
             break;
 
+        case 0x08: // RAM
+            print_RAM(cpu_ptr);
+            cpu_ptr->PC += 4;
+            break;
+
         case 0xa1: // ADI
             if (dev) {printf("ADI r[%02x] %02x r[%02x]\n", a, b, c);}
             cpu_ptr->registers[c] = cpu_ptr->registers[a] + b;

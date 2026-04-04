@@ -35,16 +35,20 @@ void check_input(struct Screen *screen, CPU *cpu_ptr) {
         if (event.type == SDL_KEYDOWN) {
             SDL_Keycode key = event.key.keysym.sym;
             printf("key pressed: 0x%02x\n", (uint8_t)key);
+            int flag = 0;
             if (32 <= key && key <= 126) {
                 cpu_ptr->RAM[0xE6] = (uint8_t)key;
+                flag = 1;
             }
-            if (key == SDLK_UP) {cpu_ptr->RAM[0xE6] = 0x80;}
-            if (key == SDLK_DOWN) {cpu_ptr->RAM[0xE6] = 0x81;}
-            if (key == SDLK_LEFT) {cpu_ptr->RAM[0xE6] = 0x82;}
-            if (key == SDLK_RIGHT) {cpu_ptr->RAM[0xE6] = 0x83;}
-            if (key == SDLK_RETURN) {cpu_ptr->RAM[0xE6] = 0x0D;}
-            if (key == SDLK_BACKSPACE) {cpu_ptr->RAM[0xE6] = 0x08;}
-            if (key == SDLK_ESCAPE) {cpu_ptr->RAM[0xE6] = 0xD0;}
+            if (key == SDLK_UP) {cpu_ptr->RAM[0xE6] = 0x80;flag = 1;}
+            if (key == SDLK_DOWN) {cpu_ptr->RAM[0xE6] = 0x81; flag = 1;}
+            if (key == SDLK_LEFT) {cpu_ptr->RAM[0xE6] = 0x82; flag = 1;}
+            if (key == SDLK_RIGHT) {cpu_ptr->RAM[0xE6] = 0x83; flag = 1;}
+            if (key == SDLK_RETURN) {cpu_ptr->RAM[0xE6] = 0x0D; flag = 1;}
+            if (key == SDLK_BACKSPACE) {cpu_ptr->RAM[0xE6] = 0x08; flag = 1;}
+            if (key == SDLK_ESCAPE) {cpu_ptr->RAM[0xE6] = 0xD0; flag = 1;}
+
+            cpu_ptr->RAM[0xE7] = flag;
         }
     }
 }
@@ -75,6 +79,7 @@ void draw_vram(struct Screen *screen, uint8_t high, uint8_t low, int xoff, int y
         full = full << 1;
     }
 }
+
 
 void draw_logo(struct Screen *screen) {
     // Set color to red

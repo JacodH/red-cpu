@@ -29,12 +29,12 @@ ascii_to_font_ptr:
     ; b = comparison_value
     ; c = comparison_result
 
-    ; if (reg[a] < 0x39) {reg[a] += 0x30}
+    ; Check if a is a number
     SET reg[b] 0x40;
-    LT reg[a] reg[b] reg[c];      c = 1 if reg[a] < 0x40
-    JEI $is_number reg[c] 0x01;
+    LT reg[a] reg[b] reg[c];      if (reg[a] < 0x40) c = 1 
+    JEI $is_number reg[c] 0x01;   a is a number 0-9
 
-    ; else {reg[a] += 0x41}
+    ; Must be a character         a is a char a-f 
     JMP $is_letter;
 is_number:
     SUI reg[a] 0x30 reg[a];    reg[a] += 0x30

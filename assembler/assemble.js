@@ -13,6 +13,7 @@ var OP_CODES = {
     "STR": "0x05",
     "OUT": "0x06",
     "ROM": "0x07",
+    "RAM": "0x08",
 
     "ADI": "0xa1",
     "ADD": "0xa2",
