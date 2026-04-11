@@ -222,7 +222,7 @@ int execute(CPU *cpu_ptr, uint8_t op, uint8_t a, uint8_t b, uint8_t c, int dev) 
             break;
     }
 
-    printf("\n");
+    if (dev) { printf("\n"); }
 
     return 0;
 }

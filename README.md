@@ -2,25 +2,24 @@
 First (ish) attempt at a CPU emulator for a custom-designed CPU. The goals of the Red 1 are: 
  - [x] Fully working stack
  - [x] Calculate the Fibonacci sequence
- - [ ] Solve the first 3 digits of PI
- - [ ] Render hexadecimal to a VRAM monitor
+ - [x] Render hexadecimal to a VRAM monitor
 
 Specs: 
  - Memory: 256 bytes
  - Registers: 8, (a, b, c, d, e, f, g, z)
- - Stack pointer (SP)
+ - Stack pointer (z)
  - Program counter (PC)
  - Fixed instruction size of 4 bytes
- - Only unsigned 
+ - Only unsigned integers
  - Von Neumann architecture
 
 # Syntax
 ```
-Instruction    = OPCODE operands...,
+Instruction    = OPCODE a, b, c
 TAR            = Target(s) of instruction 
 SRC            = Source(s) of instruction 
 DST            = Destination of instruction 
-ADDR           = Address
+ADDR           = Address (Register or RAM)
 IMM            = Immediate value
 SP             = Stack pointer register
 PC             = Program counter
@@ -31,7 +30,7 @@ RAM            = RAM[address]
 ## Table
 
 #### Memory
-| Code | Description                             | Name | o1     | o2     | o3  |
+| Code | Description                             | Name | a      | b      | c   |
 | ---- | --------------------------------------- | ---- | ------ | ------ | --- |
 | 0x01 | Sets register to immediate              | SET  | r[TAR] | IMM    |     |
 | 0x02 | Moves content from register to register | MOV  | r[SRC] | r[DST] |     |
@@ -43,7 +42,7 @@ RAM            = RAM[address]
 | 0x08 | Prints emulator RAM to console          | RAM  |        |        |     |
 
 #### Arithmetic
-| Code | Description                            | Name | o1      | o2      | o3     |
+| Code | Description                            | Name | a       | b       | c      |
 | ---- | -------------------------------------- | ---- | ------- | ------- | ------ |
 | 0xa1 | Adds an immediate to a register        | ADI  | r[TAR]  | IMM     | r[DST] |
 | 0xa2 | Adds 2 registers                       | ADD  | r[SRC1] | r[SRC2] | r[DST] |
@@ -80,39 +79,7 @@ RAM            = RAM[address]
 | 0xc3 | Pushes next PC step to stack, sets PC to ADDR | CALL | ADDR   |   |   |
 | 0xc4 | Pops -> PC                                    | RET  |        |   |   |
 
+# Running custom programs
+First, write assembly code inside the programs/asm directory. Then, cd into the assembler folder and run ```node assemble.js my_program.asm```. It will print the hexadecimal in the console and also write to a ```my_program.raw``` file. Then, go into main.c located in src and copy and paste the assembly into the ```uint8_t program[]``` array, run ```build``` and then run the ```red1.exe```. 
 
-### Implemented 
- - [x] SET
- - [x] MOV
- - [x] CLR
- - [x] GET
- - [x] STR
- - [x] OUT
- - [x] ADI
- - [x] ADD
- - [x] SUI
- - [x] SUB
- - [x] AND
- - [x] OR
- - [x] XOR
- - [x] NOT
- - [x] SHL
- - [x] SHR
- - [x] LT
- - [x] GT
- - [x] EQ
- - [x] NE
- - [x] NOP
- - [x] HLT
- - [x] JMP
- - [x] JEI
- - [x] JER
- - [x] JMPR
- - [x] JEIR
- - [x] JERR
- - [x] PUSH
- - [x] POP
- - [x] CALL
- - [x] RET
-
-# Emulation
+I know this is extremely tedious but this was just my first iteration of a custom CPU in C. Also my first real program in C. My next CPU, *blue-cpu*, will be able to read the ```.raw``` files. 

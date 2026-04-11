@@ -45,6 +45,7 @@ var OP_CODES = {
     "CALL": "0xc3",
     "RET": "0xc4",
 }
+
 var REGISTERS = {
     "reg[a]": "0x00",
     "reg[b]": "0x01",

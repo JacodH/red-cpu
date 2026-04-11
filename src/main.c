@@ -6,6 +6,8 @@
 #include "instructions.h"
 #include "screen.h"
 
+int hz = 5000; // 5khz
+
 #undef main
 int main() {
     printf("Emulator for the red-CPU.\n");
@@ -14,11 +16,11 @@ int main() {
     CPU cpu;
     init_cpu(&cpu);
 
-    // Create screen that is 12x4 pixels in size
+    // Create screen that is 12x4 pixels in size (3 characters wide)
     struct Screen screen = create_screen(3*4, 1*4, 50);
 
     // Load program
-    uint8_t program_test[] = {
+    uint8_t program[] = {
         0x01, 0x06, 0x00, 0x00,
         0xc3, 0x24, 0x00, 0x00,
         0xc3, 0x7c, 0x00, 0x00,
@@ -71,9 +73,9 @@ int main() {
         0xc4, 0x00, 0x00, 0x00,
         0xb2, 0x00, 0x00, 0x00,
     };
-    int program_size = sizeof(program_test);
+    int program_size = sizeof(program);
 
-    load_program(&cpu, program_test, program_size);
+    load_program(&cpu, program, program_size);
 
     // Set ROM
     uint8_t rom[] = {
@@ -97,18 +99,31 @@ int main() {
     load_ROM(&cpu, rom, sizeof(rom));
     print_ROM(&cpu);
 
+
+    // Some fancy stuff 
+    draw_logo(&screen);
+    SDL_RenderPresent(screen.renderer);
+    SDL_Delay(1000);
+
+
+    // Start emulator loop
     while(cpu.running) {
 
-        // Update CPU
+        // Helper functions
         // print_registers(&cpu);
         // print_RAM(&cpu);
 
+        // Update CPU
+
+        // Fetch
         uint8_t op = fetch(&cpu, 0);
         uint8_t a = fetch(&cpu, 1);
         uint8_t b = fetch(&cpu, 2);
         uint8_t c = fetch(&cpu, 3);
         
+        // Decode and Execute
         execute(&cpu, op, a, b, c, 0);
+
         // Monitor
         
         // Checks to see if the user tried to close the window 
@@ -121,15 +136,11 @@ int main() {
         draw_vram(&screen, cpu.RAM[0xe0], cpu.RAM[0xe1], 0, 0);
         draw_vram(&screen, cpu.RAM[0xe2], cpu.RAM[0xe3], 4, 0);
         draw_vram(&screen, cpu.RAM[0xe4], cpu.RAM[0xe5], 8, 0);
-        // draw_logo(&screen);
         
         // Update buffer
         SDL_RenderPresent(screen.renderer);
         
-        
-        SDL_Delay(10);
-        
-        // getchar();
+        SDL_Delay(1000/hz);
     }
     
     printf("\nCLOSING\n");
