@@ -97,8 +97,7 @@ int main() {
         0x74, 0x64, // f
     };
     load_ROM(&cpu, rom, sizeof(rom));
-    print_ROM(&cpu);
-
+    // print_ROM(&cpu);
 
     // Some fancy stuff 
     draw_logo(&screen);

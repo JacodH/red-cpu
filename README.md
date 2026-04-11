@@ -1,4 +1,6 @@
-# Red
+# Red-cpu
+![red-cpu example](screenshots/red-cpu.gif)
+
 First (ish) attempt at a CPU emulator for a custom-designed CPU. The goals of the Red 1 are: 
  - [x] Fully working stack
  - [x] Calculate the Fibonacci sequence
